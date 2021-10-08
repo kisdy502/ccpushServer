@@ -1,0 +1,31 @@
+#header{
+    margin-left: 16px;
+}
+#main{
+    margin: 16px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align:center;
+
+}
+
+table, td, th {
+    border: 1px solid black;
+}
+
+th {
+    height: 36px;
+    background: darkcyan;
+}
+
+td {
+    height: 28px;
+    background: azure;
+}
+
+#div_page{
+    float: right;
+    margin-top: 8px;
+}

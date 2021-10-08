@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+
+        <link rel="stylesheet" type="text/css" href="./css/cc_style.css">
+
+        <script type="text/javascript" src="./jquery/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                console.log("ready");
+                $.ajax({
+                    url: 'ccpush/get_online_user_list?pageIndex=0&pageSize=10',
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (data) {
+                        if (data.status == 0) {
+                            console.log("request success:" + data.status);
+                            var len = data.data.length;
+                            for (var i = 0; i < len; i++) {
+
+                                var item = data.data[i];
+                                var ip = item.ip;
+                                var userId = item.userId;
+                                var loginTime = item.loginTime;
+                                console.log("ip:" + ip);
+                                console.log("userId:" + userId);
+                                console.log("loginTime:" + loginTime);
+                                $("table[name=tb_online_user]").append(
+                                    "<tr><td>" + (i + 1) + "</td>" +
+                                    "<td>" + userId + "</td>" +
+                                    "<td>" + ip + "</td>" +
+                                    "<td>" + loginTime + "</td></tr>");
+                            }
+                        }
+                    },
+                    error: function (xhr) {
+                        // 导致出错的原因较多，以后再研究
+                        console.log('info:' + JSON.stringify(xhr));
+                    }
+                }).done(function (data) {
+                    // 请求成功后要做的工作
+                    console.log('success');
+                }).fail(function () {
+                    // 请求失败后要做的工作
+                    console.log('error');
+                }).always(function () {
+                    // 不管成功或失败都要做的工作
+                    console.log('complete');
+                });
+
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="header"><h2>在线用户列表</h2></div>
+        <div id="main">
+            <div id="tb_head">
+                <table name="tb_online_user" class="normal_table">
+                    <tr>
+                        <th>序号</th>
+                        <th>fromId</th>
+                        <th>remote address</th>
+                        <th>上线时间</th>
+                    </tr>
+                </table>
+            </div>
+            <div id="div_page">
+                <span><a>上一页</a></span>
+                <span><a>下一页</a></span>
+            </div>
+        </div>
+        <div id="footer">
+            <div name="div_tip"></div>
+        </div>
+
+
+    </body>
+</html>

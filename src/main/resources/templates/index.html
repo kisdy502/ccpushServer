@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <script type="text/javascript" src="./jquery/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $("button[name=push_msg]").click(function () {
+
+                    var fromId = $("input[name=txt_fromId]").val();
+                    var content = $("input[name=txt_content]").val();
+                    if (fromId == null || content == null) {
+                        $('div[name=div_tip]').html('<div>miss fromId or content!</div>');
+                        return;
+                    }
+                    var httpUrl = 'ccpush/send?fromId=' + fromId + "&content=" + content;
+                    $.ajax({
+                        url: httpUrl,
+                        dataType: 'json',
+                        method: 'GET',
+                        success: function (data) {
+                            if (data.status == 0) {
+                                $('div[name=div_tip]').html('<div>推送成功!</div>');
+                            }
+                        },
+                        error: function (xhr) {
+                            // 导致出错的原因较多，以后再研究
+                            console.log('info:' + JSON.stringify(xhr));
+                        }
+                    }).done(function (data) {
+                        // 请求成功后要做的工作
+                        console.log('success');
+                    }).fail(function () {
+                        // 请求失败后要做的工作
+                        console.log('error');
+                    }).always(function () {
+                        // 不管成功或失败都要做的工作
+                        console.log('complete');
+                    });
+
+
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <h2>消息推送管理平台</h2>
+        <p>fromId</p>
+        <input name="txt_fromId" type="text" width="336px"/>
+        <p>content</p>
+        <input name="txt_content" type="text" width="336px"/>
+        <button type="button" name="push_msg">Click me</button>
+        <div name="div_tip"></div>
+    </body>
+</html>
